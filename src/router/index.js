@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 
 import MainView from "@/views/MainView";
 import CourseDesignMain from "@/views/course/CourseDesignMain";
+import CourseDesignChat from "@/views/course/CourseDesignChat";
 
 Vue.use(VueRouter);
 
@@ -14,8 +15,14 @@ const routes = [
     },
     {
         path: "/course",
-        name: "CourseDesignMain",
-        component: CourseDesignMain
+        component: CourseDesignMain,
+        children: [
+            {
+                path: "chat",
+                name: "chat",
+                component: CourseDesignChat
+            }
+        ]
     }
 ];
 

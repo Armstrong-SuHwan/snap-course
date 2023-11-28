@@ -3,7 +3,7 @@
     <div class="main-memu-container">
       <div class="left-container">
         <div class="logo" @click="navigateHome">
-          <img src="../assets/logo.svg"/>
+          <img src="/assets/logo.svg"/>
         </div>
         <div id="menu-container" v-for="(item, index) in menuItems"
              class="menu-item"

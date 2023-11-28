@@ -1,27 +1,27 @@
 <template>
-  <div id=course-design-main>
+  <div id=course-design-chat>
     <header>
       <step-bar
-          :active-step-index=1
+          :active-step-index=2
           :step-contents="getStepContents"
       ></step-bar>
     </header>
     <body>
-      <div class="left-container">
-        <progress-table
-            :active-progress-index=5
-            :progress-messages="getProgressMessages"
-        ></progress-table>
-      </div>
-      <div class="right-container">
-        <ContentsBox
-            :title="contentsBoxTitle"
-            :contents="contents"
-        ></ContentsBox>
-        <message-alarm
-            :message="alarmMessage"
-        ></message-alarm>
-      </div>
+    <div class="left-container">
+      <progress-table
+          :active-progress-index=5
+          :progress-messages="getProgressMessages"
+      ></progress-table>
+    </div>
+    <div class="right-container">
+      <ContentsBox
+          :title="contentsBoxTitle"
+          :contents="contents"
+      ></ContentsBox>
+      <message-alarm
+          :message="alarmMessage"
+      ></message-alarm>
+    </div>
     </body>
 
   </div>
@@ -36,9 +36,11 @@ import ContentsBox from "@/components/ContentsBox";
 import {mapGetters} from 'vuex'
 
 export default {
-  name: "CourseDesignMain",
+  name: "CourseDesignChat",
   data() {
     return {
+      headerCategory: "학습목표",
+      headerTitle: "Javascript 기본 개념과 동작원리",
       alarmMessage: "문서를 첨부하거나, 챗을 통해 학습 목표 설정에 대해 궁금한 점을 묻거나 요청하고 반영할 수 있어요.",
       contentsBoxTitle: "학습 목표",
       contents: `
@@ -66,8 +68,16 @@ export default {
 </script>
 
 <style scoped>
-#course-design-main {
+#course-design-chat {
   padding: 40px 100px;
+}
+header {
+  display: flex;
+  width: 1249px;
+  padding: 16px 8px 16px 0px;
+  align-items: center;
+  gap: 76px;
+  border-bottom: 1px solid #E4E4E7;
 }
 
 </style>

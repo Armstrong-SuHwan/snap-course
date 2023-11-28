@@ -57,11 +57,11 @@ export default {
 
 .contents-container {
   display: flex;
-  height: 36px;
+  height: 24px;
   padding: 10px;
   flex-direction: row;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   border-radius: 82px;
   border: 1px solid #262626;
   background: #1C1C1C;
@@ -69,12 +69,13 @@ export default {
   font-size: 12px;
   font-weight: 500;
   line-height: 150%;
+  gap: 2px;
 
   > .step-content-item-inactive {
     display: flex;
-    width: 80px;
-    height: 24px;
-    padding: 5px 24px;
+    width: fit-content;
+    height: 14px;
+    padding: 5px 8px;
     justify-content: center;
     align-items: center;
     flex-shrink: 0;
@@ -87,9 +88,9 @@ export default {
   > .step-content-item-active {
     /* 여기에 원하는 CSS 스타일 추가 */
     display: flex;
-    width: 80px;
-    height: 24px;
-    padding: 5px 24px;
+    width: fit-content;
+    height: 14px;
+    padding: 5px 8px;
     justify-content: center;
     align-items: center;
     flex-shrink: 0;
