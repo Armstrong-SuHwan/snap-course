@@ -7,8 +7,7 @@
             :step-contents="getStepContents"
         ></step-bar>
         <div>
-          <div class="title-category">코스 이름</div>
-          <div class="title">{{ getSelectedCourseTitle }}</div>
+          <div class="title">코스 이름 확정</div>
         </div>
       </div>
       <div class="chat-body">
@@ -20,16 +19,16 @@
         </div>
         <div class="right-container">
           <div class="contents-container">
-            <ContentsBox
-                class="contents-box"
-                :title="contentsBoxTitle"
-                :contents="contents"
-            ></ContentsBox>
-            <div class="input-box">
-              <message-alarm
-                  :message="alarmMessage"
-              ></message-alarm>
-              <main-input-box></main-input-box>
+            <message-alarm
+                class="message-alarm"
+                :message="alarmMessage"
+            ></message-alarm>
+            <div v-for="item in getCourseTitleList"
+                 :key="item.index"
+                 class="course-item"
+                 @click="goCourseChat(item.content)"
+            >
+              <div>{{item.index + ". " + item.content}}</div>
             </div>
           </div>
           <course-footer></course-footer>
@@ -43,36 +42,24 @@
 import StepBar from "@/components/StepBar";
 import ProgressTable from "@/components/ProgressTable";
 import MessageAlarm from "@/components/MessageAlarm";
-import ContentsBox from "@/components/ContentsBox";
 
-import {mapGetters} from 'vuex'
+import {mapGetters, mapMutations} from 'vuex'
 import CourseFooter from "@/components/CourseFooter";
-import MainInputBox from "@/components/MainInputBox";
 
 export default {
-  name: "CourseDesignChat",
+  name: "CourseTargetView",
   data() {
     return {
-      headerCategory: "학습목표",
-      headerTitle: "Javascript 기본 개념과 동작원리",
-      alarmMessage: "문서를 첨부하거나, 챗을 통해 학습 목표 설정에 대해 궁금한 점을 묻거나 요청하고 반영할 수 있어요.",
-      contentsBoxTitle: "학습 목표",
-      contents: `
-      자바스크립트의 기본 개념 이해
-      변수, 데이터 타입, 연산자를 식별하고 사용할 수 있다.
-      조건문과 반복문을 이용하여 흐름 제어를 할 수 있다.
-      함수의 정의와 활용 방법을 이해하고, 스코프와 클로저에 대한 기본 지식을 갖춘다.
-      객체와 배열을 생성하고 관리할 수 있으며, JSON 객체와의 상호작용 방법을 안다
-      `
+      alarmMessage: "아래는 추천 코스 이름입니다. 아래의 예시에서 하나를 선택해주세요.",
+      courseSubject: "",
+      courseTarget: "",
     }
   },
   components: {
-    MainInputBox,
-    CourseFooter,
     ProgressTable,
     StepBar,
     MessageAlarm,
-    ContentsBox
+    CourseFooter,
   },
   computed: {
     ...mapGetters({
@@ -80,17 +67,26 @@ export default {
       getProgressMessages: 'getProgressMessage',
       getStepContents: 'getStepContents',
       getProgressIndex: 'getProgressIndex',
-      getSelectedCourseTitle: 'getSelectedCourseTitle'
+      getCourseTitleList: 'getCourseTitleList'
     })
   },
-  methods: {
+  methods:{
+    ...mapMutations({
+      setStepIndex: 'setStepIndex',
+      setProgressIndex: 'setProgressIndex',
+      setCourseTarget: 'setCourseTarget',
+      selectCourseTitle: 'selectCourseTitle'
+    }),
+
     initCourse() {
       this.setStepIndex(2);
-      this.setProgressIndex(3);
+      this.setProgressIndex(2);
     },
-    goCourseChat() {
+    goCourseChat(inputText) {
+      console.log(inputText);
       this.setStepIndex(2);
-      this.setProgressIndex(4);
+      this.setProgressIndex(3);
+      this.selectCourseTitle(inputText);
 
       this.$router.push('/course/chat');
     }
@@ -114,7 +110,8 @@ export default {
   display: flex;
   width: calc(100% - 25px);
   padding: 16px 8px 16px 0px;
-  align-items: center;
+  min-width: 1320px;
+  align-items: flex-end;
   gap: 76px;
   border-bottom: 1px solid #E4E4E7;
 }
@@ -124,13 +121,6 @@ export default {
   flex-direction: row;
   padding: 24px 25px;
 }
-.title-category {
-  align-self: stretch;
-  color: #59595A;
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 150%; /* 30px */
-}
 .title {
   flex: 1 0 0;
   color: #262626;
@@ -139,20 +129,21 @@ export default {
   line-height: 150%; /* 54px */
 }
 .right-container {
-  .contents-container {
-    width: 100%;
-    border-bottom: 1px solid #E4E4E7;
-    padding-bottom: 52px;
-  }
+  width: 100%;
+.contents-container {
+  width: 100%;
+  border-bottom: 1px solid #E4E4E7;
+  padding-bottom: 52px;
 }
-.contents-box {
-  margin-bottom: 52px;
 }
-.input-box {
-  column-gap: 20px;
+.message-alarm {
+  margin-bottom: 20px;
 }
-
-
-
-
+.course-item {
+  padding: 5px;
+}
+.course-item:hover {
+  color: #0041CF;
+  font-weight: bolder;
+}
 </style>

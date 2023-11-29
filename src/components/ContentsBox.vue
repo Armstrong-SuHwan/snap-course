@@ -9,7 +9,7 @@
       <div class="contents">
         {{contents}}
       </div>
-      <div class="edit-icon" @click="editContents">
+      <div class="edit-icon">
         <img src="/assets/edit.svg"/>
       </div>
     </div>

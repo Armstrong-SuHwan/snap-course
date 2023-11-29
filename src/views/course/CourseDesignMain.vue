@@ -106,6 +106,8 @@ export default {
 #course-design-main {
   padding: 40px 100px;
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 body {
   display: flex;
