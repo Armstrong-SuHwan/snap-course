@@ -51,8 +51,12 @@ export default {
   data() {
     return {
       alarmMessage: "아래는 추천 코스 이름입니다. 아래의 예시에서 하나를 선택해주세요.",
-      courseSubject: "",
-      courseTarget: "",
+    }
+  },
+  watch:{
+    getSelectedCourseTitle(newVal){
+      console.log(newVal);
+      this.$router.push('/course/chat');
     }
   },
   components: {
@@ -67,14 +71,14 @@ export default {
       getProgressMessages: 'getProgressMessage',
       getStepContents: 'getStepContents',
       getProgressIndex: 'getProgressIndex',
-      getCourseTitleList: 'getCourseTitleList'
+      getCourseTitleList: 'getCourseTitleList',
+      getSelectedCourseTitle: 'getSelectedCourseTitle',
     })
   },
   methods:{
     ...mapMutations({
       setStepIndex: 'setStepIndex',
       setProgressIndex: 'setProgressIndex',
-      setCourseTarget: 'setCourseTarget',
       selectCourseTitle: 'selectCourseTitle'
     }),
 
@@ -83,12 +87,13 @@ export default {
       this.setProgressIndex(2);
     },
     goCourseChat(inputText) {
-      console.log(inputText);
+      this.selectCourseTitle(inputText);
+      const payload = {
+        title: this.getSelectedCourseTitle
+      }
+      this.generateCourseTitle(payload);
       this.setStepIndex(2);
       this.setProgressIndex(3);
-      this.selectCourseTitle(inputText);
-
-      this.$router.push('/course/chat');
     }
   },
   created() {

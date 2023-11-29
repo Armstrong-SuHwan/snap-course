@@ -36,10 +36,11 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getProgressIndex:'getProgressIndex'
+      getCourseTarget: 'getCourseTarget',
+      getCourseTitleList:'getCourseTitleList'
     }),
     isSubmitted() {
-      return this.getProgressIndex === 2;
+      return this.getCourseTitleList?.length && this.getCourseTarget;
     }
   },
   methods: {

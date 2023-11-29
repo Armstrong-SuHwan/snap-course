@@ -45,17 +45,22 @@ import StepBar from "@/components/StepBar";
 import ProgressTable from "@/components/ProgressTable";
 import MessageAlarm from "@/components/MessageAlarm";
 
-import {mapGetters, mapMutations} from 'vuex'
+import {mapActions, mapGetters, mapMutations} from 'vuex'
 import CourseFooter from "@/components/CourseFooter";
 import TargetInputBox from "@/components/TargetInputBox";
 
 export default {
-  name: "CourseTargetView",
+  name: "CourseDesignTarget",
   data() {
     return {
       alarmMessage: "학습 주제에 대한 학습 대상을 설정주세요.",
-      courseSubject: "",
       courseTarget: "",
+    }
+  },
+  watch:{
+    getCourseTitleList(newVal){
+      console.log(newVal);
+      this.$router.push('/course/name');
     }
   },
   components: {
@@ -71,7 +76,9 @@ export default {
       getProgressMessages: 'getProgressMessage',
       getStepContents: 'getStepContents',
       getProgressIndex: 'getProgressIndex',
-      getCourseSubject: 'getCourseSubject'
+      getCourseSubject: 'getCourseSubject',
+      getCourseTarget: 'getCourseTarget',
+      getCourseTitleList: 'getCourseTitleList',
     })
   },
   methods:{
@@ -80,25 +87,22 @@ export default {
       setProgressIndex: 'setProgressIndex',
       setCourseTarget: 'setCourseTarget'
     }),
-
+    ...mapActions({
+      generateCourseTitle: 'generateCourseTitle'
+    }),
     initCourse() {
       this.setStepIndex(2);
       this.setProgressIndex(1);
-      this.courseSubject = this.getCourseSubject;
     },
     goCourseChat(inputText) {
-
-      console.log(inputText);
-      console.log(this.getProgressIndex);
-      //TODO: request Action To Backend
+      this.setCourseTarget(inputText);
+      const payload = {
+        subject: this.getCourseSubject,
+        target: this.getCourseTarget
+      }
+      this.generateCourseTitle(payload);
       this.setStepIndex(2);
       this.setProgressIndex(2);
-      this.setCourseTarget(inputText);
-      setTimeout(() => {
-        console.log("3초가 지났습니다!");
-      }, 3000);
-
-      this.$router.push('/course/name');
     }
   },
   created() {

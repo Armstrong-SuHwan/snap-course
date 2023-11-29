@@ -82,11 +82,12 @@ export default {
       setCourseTarget: 'setCourseTarget',
     }),
     ...mapActions({
-      generateNewCourse: 'generateNewCourse',
+      connectWebSocket: 'connectWebsocket'
     }),
     goCourseTarget() {
       this.setStepIndex(2);
       this.setProgressIndex(1);
+      this.setCourseSubject(this.courseName);
 
       this.$router.push('/course/target');
     },
@@ -94,10 +95,14 @@ export default {
       this.setStepIndex(1);
       this.setProgressIndex(0);
       this.courseName = "";
+    },
+    connectWebSocket() {
+      this.connectWebSocket()
     }
   },
   created() {
     this.initCourse();
+    this.connectWebSocket();
   }
 }
 </script>

@@ -4,7 +4,7 @@ import VueRouter from "vue-router";
 import MainView from "@/views/MainView";
 import CourseDesignMain from "@/views/course/CourseDesignMain";
 import CourseDesignChat from "@/views/course/CourseDesignChat";
-import CourseTargetView from "@/views/course/CourseTargetView";
+import CourseDesignTarget from "@/views/course/CourseDesignTarget";
 import CompTestView from "@/views/CompTestView";
 import CourseDesignName from "@/views/course/CourseDesignName";
 
@@ -25,7 +25,7 @@ const routes = [
 
         path: "/course/target",
         name: "course-target",
-        component: CourseTargetView
+        component: CourseDesignTarget
     },
     {
         path: "/course/name",

@@ -32,7 +32,6 @@ export default {
     chatMessage: {
       type: String,
       default: "hello I'm test user chat\nhello I'm test user chat\nhello I'm test user chat\n...\nhello I'm test user chat"
-
     },
     mode: {
       type: String,

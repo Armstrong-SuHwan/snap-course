@@ -23,13 +23,34 @@
             <ContentsBox
                 class="contents-box"
                 :title="contentsBoxTitle"
-                :contents="contents"
+                :contents="getCourseGoals"
             ></ContentsBox>
-            <div class="input-box">
-              <message-alarm
-                  :message="alarmMessage"
-              ></message-alarm>
-              <main-input-box></main-input-box>
+            <div class="chat-container">
+              <div v-if="isChatHistoryEmpty" class="chat-container-empty">
+                <message-alarm
+                    :message="alarmMessage"
+                    class="empty-message-alarm"
+                ></message-alarm>
+                <main-input-box
+                    class="main-input-box"
+                    @ask="sendMessage"
+                ></main-input-box>
+              </div>
+              <div v-if="!isChatHistoryEmpty" class="chat-container-not-empty">
+                <chat-card v-for="(item, index) in getChatHistory"
+                           :key="index"
+                           :chat-message="item.message"
+                           :mode="item.mode"
+                           :alarm-message="'이 내용을 반영하여 학습 목표를 재생성할 수 있어요.'"
+                >
+                </chat-card>
+                <main-input-box
+                    class="main-input-box"
+                    @ask="sendMessage"
+                    :mode="'secondary'"
+                ></main-input-box>
+              </div>
+
             </div>
           </div>
           <course-footer></course-footer>
@@ -45,28 +66,22 @@ import ProgressTable from "@/components/ProgressTable";
 import MessageAlarm from "@/components/MessageAlarm";
 import ContentsBox from "@/components/ContentsBox";
 
-import {mapGetters} from 'vuex'
+import {mapGetters, mapMutations} from 'vuex'
 import CourseFooter from "@/components/CourseFooter";
 import MainInputBox from "@/components/MainInputBox";
+import ChatCard from "@/components/ChatCard";
 
 export default {
   name: "CourseDesignChat",
   data() {
     return {
       headerCategory: "학습목표",
-      headerTitle: "Javascript 기본 개념과 동작원리",
       alarmMessage: "문서를 첨부하거나, 챗을 통해 학습 목표 설정에 대해 궁금한 점을 묻거나 요청하고 반영할 수 있어요.",
       contentsBoxTitle: "학습 목표",
-      contents: `
-      자바스크립트의 기본 개념 이해
-      변수, 데이터 타입, 연산자를 식별하고 사용할 수 있다.
-      조건문과 반복문을 이용하여 흐름 제어를 할 수 있다.
-      함수의 정의와 활용 방법을 이해하고, 스코프와 클로저에 대한 기본 지식을 갖춘다.
-      객체와 배열을 생성하고 관리할 수 있으며, JSON 객체와의 상호작용 방법을 안다
-      `
     }
   },
   components: {
+    ChatCard,
     MainInputBox,
     CourseFooter,
     ProgressTable,
@@ -80,19 +95,30 @@ export default {
       getProgressMessages: 'getProgressMessage',
       getStepContents: 'getStepContents',
       getProgressIndex: 'getProgressIndex',
-      getSelectedCourseTitle: 'getSelectedCourseTitle'
-    })
+      getSelectedCourseTitle: 'getSelectedCourseTitle',
+      getCourseGoals: 'getCourseGoals',
+      getChatHistory: 'getChatHistory',
+      isChatHistoryEmpty: 'isChatHistoryEmpty',
+    }),
   },
   methods: {
+    ...mapMutations({
+      setStepIndex: 'setStepIndex',
+      setProgressIndex: 'setProgressIndex',
+      pushChatHistory: 'pushChatHistory',
+    }),
+    sendMessage(inputText) {
+      this.pushChatHistory({mode:'user', message:inputText})
+    },
     initCourse() {
       this.setStepIndex(2);
       this.setProgressIndex(3);
     },
-    goCourseChat() {
+    goCoursePlan() {
       this.setStepIndex(2);
       this.setProgressIndex(4);
 
-      this.$router.push('/course/chat');
+      this.$router.push('/course/plan');
     }
   },
   created() {
@@ -148,8 +174,8 @@ export default {
 .contents-box {
   margin-bottom: 52px;
 }
-.input-box {
-  column-gap: 20px;
+.empty-message-alarm {
+  margin-bottom: 13px;
 }
 
 
