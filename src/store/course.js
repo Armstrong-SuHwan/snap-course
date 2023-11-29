@@ -13,7 +13,8 @@ export default {
         courseTitleList: [],
         selectedCourseTitle: "",
         courseGoals: "",
-        chatHistory: []
+        chatHistory: [],
+        coursePlan: "",
     },
     getters: {
         getStepIndex: (state) => state.stepIndex,
@@ -26,7 +27,8 @@ export default {
         getCourseGoals: (state) => state.courseGoals,
         getSelectedCourseTitle: (state) => state.selectedCourseTitle,
         getChatHistory: (state) => state.chatHistory,
-        isChatHistoryEmpty: (state) => state.chatHistory.length === 0
+        isChatHistoryEmpty: (state) => state.chatHistory.length === 0,
+        getCoursePlan: (state) => state.coursePlan,
     },
     mutations: {
         setStepIndex(state, stepIndex) {
@@ -49,6 +51,9 @@ export default {
         },
         setCourseGoals(state, courseGoals) {
             state.courseGoals = courseGoals;
+        },
+        setCoursePlan(state, coursePlan) {
+            state.coursePlan = coursePlan;
         },
         pushChatHistory(state, inputObject){
             state.chatHistory.push(inputObject);
@@ -75,9 +80,6 @@ export default {
                     });
                     commit('setCourseGoals', goals);
                 }
-                // TODO: updatePlan
-                // if (message.action === 'updatePlan') {
-                // }
             };
 
             websocket.onerror = (event) => {
@@ -96,6 +98,12 @@ export default {
         generateCourseGoals({state}, payload) {
             if(state.websocket) {
                 state.websocket.send({...payload, action:'generateCourseGoals'});
+            }
+        },
+        uploadCoursePlan({state, commit}, payload) {
+            if(state.websocket) {
+                state.websocket.send({...payload, action:'uploadCoursePlan'});
+                commit('setCoursePlan', payload.coursePlan);
             }
         }
     }
