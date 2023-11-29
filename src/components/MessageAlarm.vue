@@ -11,12 +11,15 @@
 export default {
   name: "MessageAlarm",
   props: {
-    message: String
+    message: {
+      type: String,
+      default: ""
+    }
   }
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 #message-alarm {
   display: flex;
   width: fit-content;
@@ -25,6 +28,7 @@ export default {
   align-items: center;
   border-radius: 4px;
   background: #FFDFBE;
+
   .alarm-logo {
     display: flex;
     justify-content: center;
@@ -36,11 +40,13 @@ export default {
     border-radius: 6px;
     background: #FF9500;
   }
+
   .logo-img {
     width: 14.815px;
     height: 14.815px;
     flex-shrink: 0;
   }
+  
   .alarm-text {
     color: #000;
     width: fit-content;
@@ -50,5 +56,4 @@ export default {
     line-height: 150%; /* 21px */
   }
 }
-
 </style>
