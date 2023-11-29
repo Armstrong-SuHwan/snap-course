@@ -5,6 +5,7 @@
     <main-input-box/>
     <main-input-box mode="secondary"/>
     <upload-file-box/>
+    <session-card/>
   </div>
 </template>
 
@@ -12,10 +13,11 @@
 import ChatCard from "@/components/ChatCard";
 import MainInputBox from "@/components/MainInputBox";
 import UploadFileBox from "@/components/UploadFileBox";
+import SessionCard from "@/components/SessionCard";
 
 export default {
   name: "CompTestView",
-  components: {MainInputBox, ChatCard,UploadFileBox }
+  components: {MainInputBox, ChatCard,UploadFileBox, SessionCard }
 }
 </script>
 
