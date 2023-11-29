@@ -15,14 +15,21 @@ const routes = [
     },
     {
         path: "/course",
+        name: "CourseDesignMain",
         component: CourseDesignMain,
-        children: [
-            {
-                path: "chat",
-                name: "chat",
-                component: CourseDesignChat
-            }
-        ]
+        // children: [
+        //     {
+        //         path: "chat",
+        //         name: "chat",
+        //         component: CourseDesignChat
+        //     }
+        // ]
+    },
+    {
+
+        path: "/course/chat",
+        name: "course-chat",
+        component: CourseDesignChat
     }
 ];
 
