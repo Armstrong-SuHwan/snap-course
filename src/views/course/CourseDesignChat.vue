@@ -25,7 +25,7 @@
                 :title="contentsBoxTitle"
                 :contents="getCourseGoals"
             ></ContentsBox>
-            <div class="chat-container">
+            <div class="chat-container" v-if="isSubmitted">
               <div v-if="isChatHistoryEmpty" class="chat-container-empty">
                 <message-alarm
                     :message="alarmMessage"
@@ -53,7 +53,9 @@
 
             </div>
           </div>
-          <course-footer></course-footer>
+          <course-footer
+              :route-path="'/course/plan'"
+          ></course-footer>
         </div>
       </div>
     </div>
@@ -100,6 +102,9 @@ export default {
       getChatHistory: 'getChatHistory',
       isChatHistoryEmpty: 'isChatHistoryEmpty',
     }),
+    isSubmitted() {
+      return this.getCourseGoals?.length;
+    }
   },
   methods: {
     ...mapMutations({

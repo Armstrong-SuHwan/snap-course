@@ -3,6 +3,7 @@
   <textarea
       class="input-area__field"
       v-model="inputText"
+      :disabled="isSubmitted"
       @input="adjustHeight"
       @keydown="handleKeyDown"
       ref="main-input-area-field"
@@ -40,7 +41,7 @@ export default {
       getCourseTitleList:'getCourseTitleList'
     }),
     isSubmitted() {
-      return this.getCourseTitleList?.length && this.getCourseTarget;
+      return !this.getCourseTitleList?.length && this.getCourseTarget?.length !== 0;
     }
   },
   methods: {
@@ -52,7 +53,6 @@ export default {
     },
     askClicked() {
       this.$emit('submit', this.inputText);
-      this.inputText = '';
       this.$refs["main-input-area-field"].style.height='28px';
     },
     handleKeyDown(event){
@@ -75,6 +75,8 @@ export default {
   gap: 10px;
 
   &__field{
+    display: flex;
+    a: center;
     width: 645px;
     height: 28px;
     min-height: 28px; // 기본 높이
@@ -99,7 +101,12 @@ export default {
       border: 2px solid #FC7F00; // 포커스 시 보더 색상 변경
       outline: none; // 기본 브라우저 아웃라인 제거
     }
+    &:disabled {
+      color: #a7a9ab;
+      background: #e8e9eb;
+    }
   }
+
 
   &__add-btn{
     width: 54px;

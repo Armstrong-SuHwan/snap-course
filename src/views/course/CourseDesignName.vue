@@ -31,7 +31,9 @@
               <div>{{item.index + ". " + item.content}}</div>
             </div>
           </div>
-          <course-footer></course-footer>
+          <course-footer
+              :route-path="'/course/chat'"
+          ></course-footer>
         </div>
       </div>
     </div>
@@ -43,7 +45,7 @@ import StepBar from "@/components/StepBar";
 import ProgressTable from "@/components/ProgressTable";
 import MessageAlarm from "@/components/MessageAlarm";
 
-import {mapGetters, mapMutations} from 'vuex'
+import {mapActions, mapGetters, mapMutations} from 'vuex'
 import CourseFooter from "@/components/CourseFooter";
 
 export default {
@@ -81,7 +83,9 @@ export default {
       setProgressIndex: 'setProgressIndex',
       selectCourseTitle: 'selectCourseTitle'
     }),
-
+    ...mapActions({
+      generateCourseGoals: 'generateCourseGoals'
+    }),
     initCourse() {
       this.setStepIndex(2);
       this.setProgressIndex(2);
@@ -91,12 +95,13 @@ export default {
       const payload = {
         title: this.getSelectedCourseTitle
       }
-      this.generateCourseTitle(payload);
+      this.generateCourseGoals(payload);
       this.setStepIndex(2);
       this.setProgressIndex(3);
     }
   },
   created() {
+    console.log("create design name");
     this.initCourse();
   }
 }

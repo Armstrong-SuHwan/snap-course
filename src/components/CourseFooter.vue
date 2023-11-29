@@ -1,11 +1,11 @@
 <template>
   <div class="footer-container">
     <div class="chat-footer">
-      <div class="go-prev-container">
+      <div class="go-prev-container" @click="prevRoute">
         <img class="go-prev-icon" src="/assets/prev-Icon.svg"/>
         <div class="go-prev-text">Prev.</div>
       </div>
-      <div class="go-next-container">
+      <div class="go-next-container" @click="nextRoute">
         <div class="go-next-text">Next</div>
         <img class="go-next-icon" src="/assets/next-Icon.svg"/>
       </div>
@@ -15,7 +15,18 @@
 
 <script>
 export default {
-  name: "CourseFooter"
+  name: "CourseFooter",
+  props: {
+    routePath: String,
+  },
+  methods: {
+    nextRoute() {
+      this.$router.push(this.routePath);
+    },
+    prevRoute() {
+      this.$router.back();
+    }
+  }
 }
 </script>
 
