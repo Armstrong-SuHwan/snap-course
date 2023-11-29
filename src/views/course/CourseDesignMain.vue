@@ -80,6 +80,8 @@ export default {
       setStepIndex: 'setStepIndex',
       setProgressIndex: 'setProgressIndex',
       setCourseTarget: 'setCourseTarget',
+      setCourseSubject: 'setCourseSubject',
+      setInit:'setInit'
     }),
     ...mapActions({
       connectWebSocket: 'connectWebsocket'
@@ -94,11 +96,9 @@ export default {
     initCourse() {
       this.setStepIndex(1);
       this.setProgressIndex(0);
+      this.setInit()
       this.courseName = "";
     },
-    connectWebSocket() {
-      this.connectWebSocket()
-    }
   },
   created() {
     this.initCourse();

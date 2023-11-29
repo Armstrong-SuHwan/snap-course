@@ -31,6 +31,23 @@ export default {
         getCoursePlan: (state) => state.coursePlan,
     },
     mutations: {
+        setInit(state) {
+            state.websocket = null;
+            state.stepContents = STEP_CONTENTS;
+            state.progressMessages = PROGRESS_MESSAGE;
+            state.stepIndex = 1;
+            state.progressIndex = 1;
+            state.courseSubject = "";
+            state.courseTarget = "";
+            state.courseTitleList = [];
+            state.selectedCourseTitle = "";
+            state.courseGoals = "";
+            state.chatHistory = [];
+            state.coursePlan = "";
+        },
+        setWebsocket(state, socket) {
+            state.websocket = socket
+        },
         setStepIndex(state, stepIndex) {
             state.stepIndex = stepIndex;
         },
@@ -44,6 +61,7 @@ export default {
             state.courseTarget = courseTarget;
         },
         setCourseTitleList(state, courseTitleList){
+            console.log(courseTitleList);
             state.courseTitleList = courseTitleList;
         },
         selectCourseTitle(state, courseTitle) {
@@ -61,22 +79,22 @@ export default {
     },
     actions: {
         connectWebsocket({commit}) {
-            const websocket = new WebSocket('ws://localhost:8080');
+            const websocket = new WebSocket('ws://localhost:3001');
 
             websocket.onopen =() => {
                 console.log("connected websocket...");
             }
 
             websocket.onmessage = (event) => {
-                const message = event.data;
+                const message = JSON.parse(event.data);
                 if (message.action === 'generateCourseTitle') {
-                    commit('setCourseTitleList', message.data);
+                    commit('setCourseTitleList',message.data);
                 }
                 if (message.action === 'generateCourseGoals') {
                     let goals = ""
                     message.data.map((item) => {
-                        goals = item.content
-                        goals = item.index === message.data.length ? item.content : item.content + "\n"
+                        const currentGoalText = item.index + '. ' + item.content + "\n";
+                        goals = goals + currentGoalText;
                     });
                     commit('setCourseGoals', goals);
                 }
@@ -89,20 +107,23 @@ export default {
             websocket.onclose = () => {
                 console.log('connection closed...');
             };
+
+            commit('setWebsocket', websocket);
         },
         generateCourseTitle({state}, payload) {
             if(state.websocket) {
-                state.websocket.send({...payload, action:'generateCourseTitle'});
+                console.log({...payload, action:'generateCourseTitle'})
+                state.websocket.send(JSON.stringify({...payload, action:'generateCourseTitle'}));
             }
         },
         generateCourseGoals({state}, payload) {
             if(state.websocket) {
-                state.websocket.send({...payload, action:'generateCourseGoals'});
+                state.websocket.send(JSON.stringify({...payload, action:'generateCourseGoals'}));
             }
         },
         uploadCoursePlan({state, commit}, payload) {
             if(state.websocket) {
-                state.websocket.send({...payload, action:'uploadCoursePlan'});
+                state.websocket.send(JSON.stringify({...payload, action:'uploadCoursePlan'}));
                 commit('setCoursePlan', payload.coursePlan);
             }
         }

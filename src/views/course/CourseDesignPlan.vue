@@ -21,9 +21,18 @@
         <div class="right-container">
           <div class="contents-container">
             <message-alarm
-                class="message-alarm"
                 :message="alarmMessage"
             ></message-alarm>
+            <div class="question">
+              해당 코스는 몇개의 세션으로 구성될 예정인가요?
+            </div>
+            <div class="question-description">
+              ex) 총 6개의 세션으로 구성.
+            </div>
+            <target-input-box
+                class="target-input-box"
+                @submit="goCourseDocument"
+            ></target-input-box>
           </div>
           <course-footer></course-footer>
         </div>
@@ -39,18 +48,13 @@ import MessageAlarm from "@/components/MessageAlarm";
 
 import {mapActions, mapGetters, mapMutations} from 'vuex'
 import CourseFooter from "@/components/CourseFooter";
+import TargetInputBox from "@/components/TargetInputBox";
 
 export default {
   name: "CourseTargetView",
   data() {
     return {
-      alarmMessage: "아래는 추천 코스 이름입니다. 아래의 예시에서 하나를 선택해주세요.",
-    }
-  },
-  watch:{
-    getSelectedCourseTitle(newVal){
-      console.log(newVal);
-      this.$router.push('/course/chat');
+      alarmMessage: "코스에 대한 계획을 설정해주세요.",
     }
   },
   components: {
@@ -58,6 +62,7 @@ export default {
     StepBar,
     MessageAlarm,
     CourseFooter,
+    TargetInputBox
   },
   computed: {
     ...mapGetters({
@@ -78,9 +83,9 @@ export default {
     }),
     initCourse() {
       this.setStepIndex(2);
-      this.setProgressIndex(2);
+      this.setProgressIndex(4);
     },
-    goCourseUpload(inputText) {
+    goCourseDocument(inputText) {
       const payload = {
         plan: inputText
       }
@@ -135,14 +140,21 @@ export default {
   padding-bottom: 52px;
 }
 }
-.message-alarm {
-  margin-bottom: 20px;
+.question{
+  flex: 1 0 0;
+  margin-top: 10px;
+  color: #262626;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 150%; /* 30px */
 }
-.course-item {
-  padding: 5px;
-}
-.course-item:hover {
-  color: #0041CF;
-  font-weight: bolder;
+.question-description{
+  align-self: stretch;
+  margin-top: 80px;
+  color: #4C4C4D;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 150%; /* 27px */
+  letter-spacing: -0.108px;
 }
 </style>

@@ -6,22 +6,37 @@
       </div>
     </div>
     <div class="contents-container">
-      <div class="contents">
-        {{contents}}
+      <div class="contents" v-if="!isSubmitted">
+        <p>{{contents}}</p>
+        <div class="edit-icon">
+          <img src="/assets/edit.svg"/>
+        </div>
       </div>
-      <div class="edit-icon">
-        <img src="/assets/edit.svg"/>
+      <div class="loading-container" v-if="isSubmitted">
+        <div class="loading-icon">
+          <img class="submit-loading" src="../../public/assets/loading.gif" alt="loading">
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
   name: "ContentsBox",
   props: {
     title: String,
     contents: String,
+  },
+  computed: {
+    ...mapGetters({
+      getCourseGoals: 'getCourseGoals'
+    }),
+    isSubmitted() {
+      return !this.getCourseGoals?.length;
+    }
   }
 }
 </script>
@@ -59,14 +74,27 @@ export default {
 
 .contents-container {
   display: flex;
+  width: 100%;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   align-items: flex-end;
 }
 .contents {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  white-space: pre-wrap;
   color: #1B2559;
   font-size: 14px;
   font-weight: 500;
-  line-height: 26px; /* 185.714% */
+  line-height: 26px;/* 185.714% */
+  .edit-icon {
+    align-items: flex-end;
+  }
+}
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

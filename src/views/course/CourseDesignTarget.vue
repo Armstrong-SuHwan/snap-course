@@ -33,7 +33,9 @@
                 @submit="goCourseChat"
             ></target-input-box>
           </div>
-          <course-footer></course-footer>
+          <course-footer
+              :route-path="'/course/name'"
+          ></course-footer>
         </div>
       </div>
     </div>
