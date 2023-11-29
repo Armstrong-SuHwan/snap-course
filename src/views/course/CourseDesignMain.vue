@@ -8,58 +8,52 @@
     </header>
     <body>
       <div class="left-container">
-        <progress-table
-            :active-progress-index=5
-            :progress-messages="getProgressMessages"
-        ></progress-table>
+        <div class="service-container">
+          <div class="service-name">SnapCourse.AI</div>
+          <div class="service-description">
+            가장 간단한 교육 설계의 시작.<br>
+            필요한 러닝 코스를 SnapCourse와 함께 설계해 보세요.
+          </div>
+        </div>
+        <div class="bound-line"/>
+        <div class="get-start-container">
+          <div class="get-start-description">
+            어떤 코스를 설계해야할 지 고민된다면,<br>
+            SnapCourse가 추천하는 러닝 코스와 함께 시작해보세요.
+          </div>
+          <button class="get-start-button">
+            추천 러닝 코스로 시작하기
+          </button>
+        </div>
       </div>
       <div class="right-container">
-        <ContentsBox
-            :title="contentsBoxTitle"
-            :contents="contents"
-        ></ContentsBox>
         <message-alarm
             :message="alarmMessage"
         ></message-alarm>
       </div>
     </body>
-
   </div>
 </template>
 
 <script>
 import StepBar from "@/components/StepBar";
-import ProgressTable from "@/components/ProgressTable";
+import {mapGetters} from "vuex";
 import MessageAlarm from "@/components/MessageAlarm";
-import ContentsBox from "@/components/ContentsBox";
-
-import {mapGetters} from 'vuex'
 
 export default {
   name: "CourseDesignMain",
+  components: {
+    StepBar,
+    MessageAlarm
+  },
   data() {
     return {
-      alarmMessage: "문서를 첨부하거나, 챗을 통해 학습 목표 설정에 대해 궁금한 점을 묻거나 요청하고 반영할 수 있어요.",
-      contentsBoxTitle: "학습 목표",
-      contents: `
-      자바스크립트의 기본 개념 이해
-      변수, 데이터 타입, 연산자를 식별하고 사용할 수 있다.
-      조건문과 반복문을 이용하여 흐름 제어를 할 수 있다.
-      함수의 정의와 활용 방법을 이해하고, 스코프와 클로저에 대한 기본 지식을 갖춘다.
-      객체와 배열을 생성하고 관리할 수 있으며, JSON 객체와의 상호작용 방법을 안다
-      `
+      alarmMessage: "이 코스를 통해 학습자에게 제공하려는 학습 목표가 잘 표현된 이름을 추천드려요."
     }
-  },
-  components: {
-    ProgressTable,
-    StepBar,
-    MessageAlarm,
-    ContentsBox
   },
   computed: {
     ...mapGetters({
-      getStepContents: 'getStepContents',
-      getProgressMessages: 'getProgressMessage'
+      getStepContents:'getStepContents'
     })
   }
 }
@@ -68,6 +62,72 @@ export default {
 <style scoped>
 #course-design-main {
   padding: 40px 100px;
+  justify-content: center;
+  align-items: center;
 }
-
+body {
+  display: flex;
+  flex-direction: row;
+  gap: 87px;
+}
+header {
+  margin-bottom: 28px;
+}
+.left-container {
+  width: 450px;
+  gap:12px;
+}
+.service-name {
+  align-self: stretch;
+  color: #262626;
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%; /* 57.6px */
+  margin-bottom: 10px;
+}
+.service-description {
+  color: #333;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 150%; /* 27px */
+}
+.bound-line {
+  width: 393px;
+  height: 1px;
+  margin: 32px 0px;
+  background: #000;
+}
+.get-start-container {
+  gap: 18px;
+  .get-start-description {
+    color: #333;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 150%; /* 21px */
+  }
+  .get-start-button {
+    display: flex;
+    width: 221px;
+    height: 52px;
+    padding: 18px 24px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 8px;
+    border: 1px solid #000;
+    background: #FFF;
+  }
+}
+.right-container {
+  display: flex;
+  padding: 50px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  align-self: stretch;
+  border-radius: 12px;
+  border: 1px solid #F1F1F3;
+  background: #FFF;
+}
 </style>
