@@ -20,22 +20,10 @@
         </div>
         <div class="right-container">
           <div class="contents-container">
-            <message-alarm
-                :message="alarmMessage"
-            ></message-alarm>
-            <div class="question">
-              해당 코스는 몇개의 세션으로 구성될 예정인가요?
-            </div>
-            <div class="question-description">
-              ex) 총 6개의 세션으로 구성.
-            </div>
-            <target-input-box
-                class="target-input-box"
-                @submit="goCourseDocument"
-            ></target-input-box>
+            <upload-file-box></upload-file-box>
           </div>
           <course-footer
-              :route-path="'/course/upload'"
+              :route-path="'/course/complete'"
           ></course-footer>
         </div>
       </div>
@@ -44,13 +32,11 @@
 </template>
 
 <script>
+import {mapGetters, mapMutations} from 'vuex'
 import StepBar from "@/components/StepBar";
 import ProgressTable from "@/components/ProgressTable";
-import MessageAlarm from "@/components/MessageAlarm";
-
-import {mapActions, mapGetters, mapMutations} from 'vuex'
 import CourseFooter from "@/components/CourseFooter";
-import TargetInputBox from "@/components/TargetInputBox";
+import UploadFileBox from "@/components/UploadFileBox";
 
 export default {
   name: "CourseTargetView",
@@ -62,9 +48,8 @@ export default {
   components: {
     ProgressTable,
     StepBar,
-    MessageAlarm,
+    UploadFileBox,
     CourseFooter,
-    TargetInputBox
   },
   computed: {
     ...mapGetters({
@@ -80,21 +65,19 @@ export default {
       setStepIndex: 'setStepIndex',
       setProgressIndex: 'setProgressIndex',
     }),
-    ...mapActions({
-      uploadCoursePlan: 'uploadCoursePlan'
-    }),
     initCourse() {
       this.setStepIndex(2);
-      this.setProgressIndex(4);
+      this.setProgressIndex(5);
     },
-    goCourseDocument(inputText) {
-      const payload = {
-        plan: inputText
-      }
-      this.uploadCoursePlan(payload);
+    goCourseComplete(inputText) {
+      console.log(inputText)
+      // const payload = {
+      //   plan: inputText
+      // }
+      // this.uploadCoursePlan(payload);
       this.setStepIndex(2);
       this.setProgressIndex(6);
-      this.$router.push('/course/upload');
+      this.$router.push('/course/complete');
     }
   },
   created() {

@@ -8,6 +8,8 @@ import CourseDesignTarget from "@/views/course/CourseDesignTarget";
 import CompTestView from "@/views/CompTestView";
 import CourseDesignName from "@/views/course/CourseDesignName";
 import CourseDesignPlan from "@/views/course/CourseDesignPlan";
+import CourseDocumentUpload from "@/views/course/CourseDocumentUpload";
+import CourseDesignComplete from "@/views/course/CourseDesignComplete";
 
 Vue.use(VueRouter);
 
@@ -42,6 +44,16 @@ const routes = [
         path: "/course/plan",
         name: "course-plan",
         component: CourseDesignPlan
+    },
+    {
+        path: "/course/upload",
+        name: "course-upload",
+        component: CourseDocumentUpload,
+    },
+    {
+        path: "/course/complete",
+        name: "course-complete",
+        component: CourseDesignComplete,
     },
     {
         path: "/test",

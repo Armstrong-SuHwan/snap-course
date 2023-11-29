@@ -25,25 +25,20 @@ export default {
   name: "SessionCard",
   props: {
     sessionSeq: {
-      type:String,
-      default: "1"
+      type:Number,
+      default: 1
     },
     title:{
       type:String,
-      default: "자바스크립트 소개 및 기본 개념"
+      default: ""
     },
     goal:{
       type:String,
-      default: "자바스크립트의 역사와 기본 구조 이해하기"
+      default: ""
     },
     contentList:{
       type: Array,
-      default: () => [
-        { "content": "ES6 도입 배경과 중요성", "time": "30분" },
-        { "content": "let과 const를 사용한 변수 선언", "time": "20분" },
-        { "content": "템플릿 리터럴과 문자열 확장 기능", "time": "30분" },
-        { "content": "화살표 함수의 소개와 사용법", "time": "40분" }
-      ]
+      default: () => []
     },
   }
 }

@@ -19,24 +19,21 @@
           ></progress-table>
         </div>
         <div class="right-container">
-          <div class="contents-container">
-            <message-alarm
-                :message="alarmMessage"
-            ></message-alarm>
-            <div class="question">
-              해당 코스는 몇개의 세션으로 구성될 예정인가요?
+          <div class="contents-container" >
+            <div class="loading-container" v-if="isEmptyCurriculum">
+              <div class="loading-icon">
+                <img class="submit-loading" src="../../../public/assets/loading.gif" alt="loading">
+              </div>
             </div>
-            <div class="question-description">
-              ex) 총 6개의 세션으로 구성.
+            <div v-if="!isEmptyCurriculum">
+              <session-card-box :session-list="getCourseCurriculum"></session-card-box>
+              <main-input-box
+                  :mode="'secondary'"
+              ></main-input-box>
             </div>
-            <target-input-box
-                class="target-input-box"
-                @submit="goCourseDocument"
-            ></target-input-box>
           </div>
           <course-footer
-              :route-path="'/course/upload'"
-          ></course-footer>
+          :route-path="'/course/upload'"></course-footer>
         </div>
       </div>
     </div>
@@ -44,13 +41,12 @@
 </template>
 
 <script>
+import {mapActions, mapGetters, mapMutations} from 'vuex'
 import StepBar from "@/components/StepBar";
 import ProgressTable from "@/components/ProgressTable";
-import MessageAlarm from "@/components/MessageAlarm";
-
-import {mapActions, mapGetters, mapMutations} from 'vuex'
 import CourseFooter from "@/components/CourseFooter";
-import TargetInputBox from "@/components/TargetInputBox";
+import MainInputBox from "@/components/MainInputBox";
+import SessionCardBox from "@/components/SessionCardBox";
 
 export default {
   name: "CourseTargetView",
@@ -60,11 +56,11 @@ export default {
     }
   },
   components: {
+    SessionCardBox,
+    MainInputBox,
     ProgressTable,
     StepBar,
-    MessageAlarm,
     CourseFooter,
-    TargetInputBox
   },
   computed: {
     ...mapGetters({
@@ -73,7 +69,11 @@ export default {
       getStepContents: 'getStepContents',
       getProgressIndex: 'getProgressIndex',
       getSelectedCourseTitle: 'getSelectedCourseTitle',
-    })
+      getCourseCurriculum: 'getCourseCurriculum',
+    }),
+    isEmptyCurriculum() {
+      return this.getCourseCurriculum?.length === 0;
+    }
   },
   methods:{
     ...mapMutations({
@@ -81,23 +81,24 @@ export default {
       setProgressIndex: 'setProgressIndex',
     }),
     ...mapActions({
-      uploadCoursePlan: 'uploadCoursePlan'
+      generateCourseCurriculum: 'generateCourseCurriculum'
     }),
     initCourse() {
       this.setStepIndex(2);
-      this.setProgressIndex(4);
+      this.setProgressIndex(6);
     },
     goCourseDocument(inputText) {
-      const payload = {
-        plan: inputText
-      }
-      this.uploadCoursePlan(payload);
-      this.setStepIndex(2);
+      console.log(inputText)
+      // const payload = {
+      //   plan: inputText
+      // }
+      // this.uploadCoursePlan(payload);
+      this.setStepIndex(3);
       this.setProgressIndex(6);
-      this.$router.push('/course/upload');
     }
   },
   created() {
+    this.generateCourseCurriculum()
     this.initCourse();
   }
 }
@@ -136,27 +137,15 @@ export default {
 }
 .right-container {
   width: 100%;
-.contents-container {
-  width: 100%;
-  border-bottom: 1px solid #E4E4E7;
-  padding-bottom: 52px;
+  .contents-container {
+    width: 100%;
+    border-bottom: 1px solid #E4E4E7;
+    padding-bottom: 52px;
+  }
 }
-}
-.question{
-  flex: 1 0 0;
-  margin-top: 10px;
-  color: #262626;
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 150%; /* 30px */
-}
-.question-description{
-  align-self: stretch;
-  margin-top: 80px;
-  color: #4C4C4D;
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 150%; /* 27px */
-  letter-spacing: -0.108px;
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

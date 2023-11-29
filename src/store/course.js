@@ -15,6 +15,7 @@ export default {
         courseGoals: "",
         chatHistory: [],
         coursePlan: "",
+        courseCurriculum: [],
     },
     getters: {
         getStepIndex: (state) => state.stepIndex,
@@ -29,6 +30,7 @@ export default {
         getChatHistory: (state) => state.chatHistory,
         isChatHistoryEmpty: (state) => state.chatHistory.length === 0,
         getCoursePlan: (state) => state.coursePlan,
+        getCourseCurriculum: (state) => state.courseCurriculum,
     },
     mutations: {
         setInit(state) {
@@ -75,6 +77,9 @@ export default {
         },
         pushChatHistory(state, inputObject){
             state.chatHistory.push(inputObject);
+        },
+        setCourseCurriculum(state, courseCurriculum) {
+            state.courseCurriculum = courseCurriculum;
         }
     },
     actions: {
@@ -97,6 +102,9 @@ export default {
                         goals = goals + currentGoalText;
                     });
                     commit('setCourseGoals', goals);
+                }
+                if (message.action === 'generateCourseCurriculum') {
+                    commit('setCourseCurriculum', message.data);
                 }
             };
 
@@ -126,6 +134,11 @@ export default {
                 state.websocket.send(JSON.stringify({...payload, action:'uploadCoursePlan'}));
                 commit('setCoursePlan', payload.coursePlan);
             }
-        }
+        },
+        generateCourseCurriculum({state}) {
+            if(state.websocket) {
+                state.websocket.send(JSON.stringify({action:'generateCourseCurriculum'}));
+            }
+        },
     }
 };
