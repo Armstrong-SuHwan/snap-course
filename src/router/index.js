@@ -5,6 +5,7 @@ import MainView from "@/views/MainView";
 import CourseDesignMain from "@/views/course/CourseDesignMain";
 import CourseDesignChat from "@/views/course/CourseDesignChat";
 import CourseTargetView from "@/views/course/CourseTargetView";
+import CompTestView from "@/views/CompTestView";
 
 Vue.use(VueRouter);
 
@@ -29,7 +30,12 @@ const routes = [
         path: "/course/chat",
         name: "course-chat",
         component: CourseDesignChat
-    }
+    },
+    {
+        path: "/test",
+        name: "Test",
+        component: CompTestView
+    },
 ];
 
 const router = new VueRouter({
