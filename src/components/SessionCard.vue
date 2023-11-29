@@ -69,15 +69,15 @@ export default {
 
   &__session-seq-title{
     color: var(--grey-15, #262626);
-    font-size: 56px;
+    font-size: 48px;
     font-style: normal;
-    font-weight: 700;
+    font-weight: 600;
   }
 
   &__title{
     color: var(--grey-20, #333);
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 18px;
+    font-weight: 500;
     line-height: 150%;
     letter-spacing: -0.12px;
     margin-top: 16px;
@@ -85,14 +85,15 @@ export default {
 
   &__goal{
     color: var(--grey-20, #333);
-    font-size: 16px;
+    font-size: 14px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 300;
     line-height: 100%; /* 24px */
     letter-spacing: -0.096px;
 
     margin-top: 8px;
     margin-bottom: 8px;
+    max-width: 322px;
   }
 
   &__content-container{
