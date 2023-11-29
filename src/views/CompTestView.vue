@@ -2,15 +2,18 @@
   <div>
     <chat-card/>
     <chat-card mode="ai"/>
+    <main-input-box/>
+    <main-input-box mode="secondary"/>
   </div>
 </template>
 
 <script>
 import ChatCard from "@/components/ChatCard";
+import MainInputBox from "@/components/MainInputBox";
 
 export default {
   name: "CompTestView",
-  components: { ChatCard }
+  components: {MainInputBox, ChatCard }
 }
 </script>
 
