@@ -4,6 +4,7 @@ import VueRouter from "vue-router";
 import MainView from "@/views/MainView";
 import CourseDesignMain from "@/views/course/CourseDesignMain";
 import CourseDesignChat from "@/views/course/CourseDesignChat";
+import CourseTargetView from "@/views/course/CourseTargetView";
 import CompTestView from "@/views/CompTestView";
 
 Vue.use(VueRouter);
@@ -18,16 +19,14 @@ const routes = [
         path: "/course",
         name: "CourseDesignMain",
         component: CourseDesignMain,
-        // children: [
-        //     {
-        //         path: "chat",
-        //         name: "chat",
-        //         component: CourseDesignChat
-        //     }
-        // ]
     },
     {
 
+        path: "/course/target",
+        name: "course-target",
+        component: CourseTargetView
+    },
+    {
         path: "/course/chat",
         name: "course-chat",
         component: CourseDesignChat

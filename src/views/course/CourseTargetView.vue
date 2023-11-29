@@ -6,10 +6,6 @@
             :active-step-index="getStepIndex"
             :step-contents="getStepContents"
         ></step-bar>
-        <div>
-          <div class="title-category">코스 이름</div>
-          <div class="title">Javascript 기본 개념과 동작원리</div>
-        </div>
       </div>
       <div class="chat-body">
         <div class="left-container">
@@ -19,24 +15,21 @@
           ></progress-table>
         </div>
         <div class="right-container">
-          <div class="contents-container">
-            <ContentsBox
-                class="contents-box"
-                :title="contentsBoxTitle"
-                :contents="contents"
-            ></ContentsBox>
+          <div class="right-container">
             <message-alarm
                 :message="alarmMessage"
             ></message-alarm>
-          </div>
-          <div class="chat-footer">
-            <div class="go-prev-container">
-              <img class="go-prev-icon" src="/assets/prev-Icon.svg"/>
-              <div class="go-prev-text">Prev.</div>
+            <div class="question">
+              코스를 수강하는 학습 대상은 누구인가요?
             </div>
-            <div class="go-next-container">
-              <div class="go-next-text">Next</div>
-              <img class="go-next-icon" src="/assets/next-Icon.svg"/>
+            <div class="question-description">
+              학습 대상을 입력하면, SnapCourse의 AI가 학습 코스 설계를 위한 질문을 시작해요.
+            </div>
+            <div class="question-input-container">
+              <input type="text" class="question-input-box" v-model="courseSubject">
+              <div class="question-submit-container">
+                <button class="question-submit-icon" @click="goCourseTarget"></button>
+              </div>
             </div>
           </div>
         </div>
@@ -49,41 +42,52 @@
 import StepBar from "@/components/StepBar";
 import ProgressTable from "@/components/ProgressTable";
 import MessageAlarm from "@/components/MessageAlarm";
-import ContentsBox from "@/components/ContentsBox";
 
-import {mapGetters} from 'vuex'
+import {mapGetters, mapMutations} from 'vuex'
 
 export default {
-  name: "CourseDesignChat",
+  name: "CourseTargetView",
   data() {
     return {
-      headerCategory: "학습목표",
-      headerTitle: "Javascript 기본 개념과 동작원리",
-      alarmMessage: "문서를 첨부하거나, 챗을 통해 학습 목표 설정에 대해 궁금한 점을 묻거나 요청하고 반영할 수 있어요.",
-      contentsBoxTitle: "학습 목표",
-      contents: `
-      자바스크립트의 기본 개념 이해
-      변수, 데이터 타입, 연산자를 식별하고 사용할 수 있다.
-      조건문과 반복문을 이용하여 흐름 제어를 할 수 있다.
-      함수의 정의와 활용 방법을 이해하고, 스코프와 클로저에 대한 기본 지식을 갖춘다.
-      객체와 배열을 생성하고 관리할 수 있으며, JSON 객체와의 상호작용 방법을 안다
-      `
+      alarmMessage: "학습 주제에 대한 학습 대상을 설정주세요.",
+      courseSubject: "",
+      courseTarget: "",
     }
   },
   components: {
     ProgressTable,
     StepBar,
-    MessageAlarm,
-    ContentsBox
+    MessageAlarm
   },
   computed: {
     ...mapGetters({
       getStepIndex: 'getStepIndex',
       getProgressMessages: 'getProgressMessage',
       getStepContents: 'getStepContents',
-      getProgressIndex: 'getProgressIndex'
+      getProgressIndex: 'getProgressIndex',
+      getCourseSubject: 'getCourseSubject'
     })
   },
+  methods:{
+    ...mapMutations({
+      setStepIndex: 'setStepIndex',
+      setProgressIndex: 'setProgressIndex'
+    }),
+    initCourse() {
+      this.setStepIndex(2);
+      this.setProgressIndex(1);
+      this.courseSubject = this.getCourseSubject;
+    },
+    goCourseTarget() {
+      this.setStepIndex(2);
+      this.setProgressIndex(2);
+
+      this.$router.push('/course/chat');
+    }
+  },
+  created() {
+    this.initCourse();
+  }
 }
 </script>
 
@@ -110,33 +114,78 @@ export default {
   flex-direction: row;
   padding: 24px 25px;
 }
-.title-category {
+
+.right-container {
+  display: flex;
+  padding: 50px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
   align-self: stretch;
-  color: #59595A;
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 150%; /* 30px */
+  border-radius: 12px;
+  border: 1px solid #F1F1F3;
+  background: #FFF;
 }
-.title {
+.question{
   flex: 1 0 0;
   color: #262626;
-  font-size: 36px;
-  font-weight: 600;
-  line-height: 150%; /* 54px */
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 150%; /* 30px */
 }
-.right-container {
-  .contents-container {
-    width: 100%;
-    border-bottom: 1px solid #E4E4E7;
-    padding-bottom: 52px;
-  }
+.question-description{
+  align-self: stretch;
+  color: #4C4C4D;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 150%; /* 27px */
+  letter-spacing: -0.108px;
 }
-
-.contents-box {
-  margin-bottom: 52px;
+.question-input-container {
+  display: flex;
+  padding: 20px 30px;
+  align-items: center;
+  align-self: stretch;
+  border-radius: 8px;
+  border: 1px solid #FC7F00;
+  background: #F7F7F8;
+}
+.question-input-box {
+  flex: 1 0 0;
+  color: #333;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 150%; /* 27px */
+  border: none;
+  background-color: #F7F7F8;
+}
+.question-input-box:focus {
+  outline: none;
+  border: none;
+}
+.question-submit-container {
+  display: flex;
+  padding: 14px;
+  align-items: flex-start;
+  gap: 10px;
+  border-radius: 100px;
+  background: #FC7F00;
+}
+.question-submit-icon {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: url("../../../public/assets/enter-icon.svg");
+}
+.inprogress-icon {
+  width: 28px;
+  height: 28px;
+  padding: 14px;
+  gap: 10px;
 }
 
 .chat-footer {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   padding-top: 52px;
@@ -163,7 +212,7 @@ export default {
       width: 28px;
       height: 28px;
       flex-shrink: 0;
-     }
+    }
   }
   .go-next-container {
     display: flex;
