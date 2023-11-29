@@ -46,7 +46,7 @@ export default {
     height: 14.815px;
     flex-shrink: 0;
   }
-  
+
   .alarm-text {
     color: #000;
     width: fit-content;
