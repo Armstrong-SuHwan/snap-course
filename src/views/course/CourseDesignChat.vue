@@ -68,7 +68,7 @@ import ProgressTable from "@/components/ProgressTable";
 import MessageAlarm from "@/components/MessageAlarm";
 import ContentsBox from "@/components/ContentsBox";
 
-import {mapGetters, mapMutations} from 'vuex'
+import {mapActions, mapGetters, mapMutations} from 'vuex'
 import CourseFooter from "@/components/CourseFooter";
 import MainInputBox from "@/components/MainInputBox";
 import ChatCard from "@/components/ChatCard";
@@ -112,8 +112,12 @@ export default {
       setProgressIndex: 'setProgressIndex',
       pushChatHistory: 'pushChatHistory',
     }),
+    ...mapActions({
+      postQueryForGoals: 'postQueryForGoals'
+    }),
     sendMessage(inputText) {
       this.pushChatHistory({mode:'user', message:inputText})
+      this.postQueryForGoals(inputText)
     },
     initCourse() {
       this.setStepIndex(2);

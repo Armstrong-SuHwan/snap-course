@@ -106,6 +106,9 @@ export default {
                 if (message.action === 'generateCourseCurriculum') {
                     commit('setCourseCurriculum', message.data);
                 }
+                if (message.action === 'postQueryForGoals') {
+                    commit('pushChatHistory', {mode:'ai', message:message.data});
+                }
             };
 
             websocket.onerror = (event) => {
@@ -140,5 +143,10 @@ export default {
                 state.websocket.send(JSON.stringify({action:'generateCourseCurriculum'}));
             }
         },
+        postQueryForGoals({state}, payload) {
+            if(state.websocket) {
+                state.websocket.send(JSON.stringify({...payload, action:'postQueryForGoals'}));
+            }
+        }
     }
 };
