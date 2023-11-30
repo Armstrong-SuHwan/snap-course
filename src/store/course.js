@@ -145,7 +145,8 @@ export default {
         },
         postQueryForGoals({state}, payload) {
             if(state.websocket) {
-                state.websocket.send(JSON.stringify({...payload, action:'postQueryForGoals'}));
+                console.log(payload);
+                state.websocket.send(JSON.stringify({query: payload, action:'postQueryForGoals'}));
             }
         }
     }
