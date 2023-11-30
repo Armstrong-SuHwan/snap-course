@@ -5,17 +5,21 @@
       v-model="inputText"
       @input="adjustHeight"
       @keydown="handleKeyDown"
+      :disabled="isSubmitted"
       ref="main-input-area-field"
   />
   <img v-if="mode==='primary'" src="../../public/assets/Frame 71.svg" class="input-area__add-btn"/>
   <img v-else src="../../public/assets/Frame 72.svg" class="input-area__add-btn"/>
   <div :class="mode==='primary' ? 'input-area__ask-btn' : 'input-area__ask-btn--secondary'" @click="askClicked">
-    <p>Ask</p>
+    <p v-if="!isSubmitted">Ask</p>
+    <p v-else>Asking...</p>
   </div>
 </div>
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
   name: "MainInputBox",
   data() {
@@ -29,6 +33,14 @@ export default {
       default: "primary"
     }
   },
+  computed: {
+    ...mapGetters({
+      getQueryProcessing: 'getQueryProcessing',
+    }),
+    isSubmitted() {
+      return this.getQueryProcessing;
+    }
+  },
   methods: {
     adjustHeight(e) {
       const element = e.target;
@@ -37,9 +49,11 @@ export default {
       console.log(element.scrollHeight);
     },
     askClicked() {
-      this.$emit('ask', this.inputText);
-      this.inputText = '';
-      this.$refs["main-input-area-field"].style.height='28px';
+      if (!this.isSubmitted) {
+        this.$emit('ask', this.inputText);
+        this.inputText = '';
+        this.$refs["main-input-area-field"].style.height = '28px';
+      }
     },
     handleKeyDown(event){
       if (event.key === 'Enter' && !event.shiftKey) {
@@ -122,5 +136,4 @@ export default {
     }
   }
 }
-
 </style>

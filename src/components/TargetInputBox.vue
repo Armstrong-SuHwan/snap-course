@@ -102,8 +102,8 @@ export default {
       outline: none; // 기본 브라우저 아웃라인 제거
     }
     &:disabled {
-      color: #a7a9ab;
-      background: #e8e9eb;
+        color: #a7a9ab;
+        background: #e8e9eb;
     }
   }
 

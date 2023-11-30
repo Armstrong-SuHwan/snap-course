@@ -16,6 +16,7 @@ export default {
         chatHistory: [],
         coursePlan: "",
         courseCurriculum: [],
+        queryProcessing: false,
     },
     getters: {
         getStepIndex: (state) => state.stepIndex,
@@ -31,6 +32,7 @@ export default {
         isChatHistoryEmpty: (state) => state.chatHistory.length === 0,
         getCoursePlan: (state) => state.coursePlan,
         getCourseCurriculum: (state) => state.courseCurriculum,
+        getQueryProcessing: (state) => state.queryProcessing,
     },
     mutations: {
         setInit(state) {
@@ -76,6 +78,7 @@ export default {
             state.coursePlan = coursePlan;
         },
         pushChatHistory(state, inputObject){
+            state.queryProcessing = false;
             state.chatHistory.push(inputObject);
         },
         setCourseCurriculum(state, courseCurriculum) {
@@ -146,6 +149,7 @@ export default {
         postQueryForGoals({state}, payload) {
             if(state.websocket) {
                 console.log(payload);
+                state.queryProcessing = true;
                 state.websocket.send(JSON.stringify({query: payload, action:'postQueryForGoals'}));
             }
         }
