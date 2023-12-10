@@ -39,6 +39,7 @@
               <div v-if="!isChatHistoryEmpty" class="chat-container-not-empty">
                 <chat-card v-for="(item, index) in getChatHistory"
                            :key="index"
+                           :index="index"
                            :chat-message="item.message"
                            :mode="item.mode"
                            :alarm-message="'이 내용을 반영하여 학습 목표를 재생성할 수 있어요.'"

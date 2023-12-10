@@ -74,6 +74,9 @@ export default {
         setCourseGoals(state, courseGoals) {
             state.courseGoals = courseGoals;
         },
+        clearCourseGoals(state) {
+            state.courseGoals = '';
+        },
         setCoursePlan(state, coursePlan) {
             state.coursePlan = coursePlan;
         },

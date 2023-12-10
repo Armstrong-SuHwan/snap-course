@@ -9,11 +9,11 @@
   <div v-if="mode!=='user'" class="ai-chat-card">
     <div class="ai-chat-card__container">
       <p>{{chatMessage}}</p>
-      <div class="ai-chat-card__footer">
+      <div class="ai-chat-card__footer"  v-if="(getChatHistory.length - 1) === index">
         <message-alarm class="ai-chat-card__message-alarm" :message="alarmMessage"/>
         <div class="ai-chat-card__apply-btn">
           <img src="../../public/assets/thumb-up-dynamic-color.png">
-          <p>반영하기</p>
+          <p @click="reflectChat">반영하기</p>
         </div>
       </div>
     </div>
@@ -23,12 +23,17 @@
 
 <script>
 import messageAlarm from "@/components/MessageAlarm";
+import {mapActions, mapGetters, mapMutations} from "vuex";
 
 export default {
   name: "ChatCard",
   components: {messageAlarm},
 
   props: {
+    index: {
+      type: Number,
+      default: 0
+    },
     chatMessage: {
       type: String,
       default: "hello I'm test user chat\nhello I'm test user chat\nhello I'm test user chat\n...\nhello I'm test user chat"
@@ -40,6 +45,27 @@ export default {
     alarmMessage: {
       type: String,
       default: "alarm message 입니다. alarm message 입니다."
+    }
+  },
+  computed: {
+    ...mapGetters({
+      getSelectedCourseTitle: 'getSelectedCourseTitle',
+      getChatHistory: 'getChatHistory',
+    })
+  },
+  methods: {
+    ...mapMutations({
+      clearCourseGoals: 'clearCourseGoals'
+    }),
+    ...mapActions({
+      generateCourseGoals: 'generateCourseGoals'
+    }),
+    reflectChat() {
+      this.clearCourseGoals();
+      const payload = {
+        title: this.getSelectedCourseTitle
+      }
+      this.generateCourseGoals(payload);
     }
   }
 
